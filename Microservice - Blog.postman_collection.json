@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "97f2d7e0-fa68-42f7-a745-c384c23119b1",
+		"_postman_id": "f2be67e5-ab08-4e30-8a91-4b406b09c70e",
 		"name": "Microservice - Blog",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22865065"
 	},
 	"item": [
 		{
@@ -56,31 +57,12 @@
 					"response": []
 				},
 				{
-					"name": "http://localhost:8080/users",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/users",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "http://localhost:8083/users/2",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8083/users/1",
+							"raw": "http://localhost:8083/users/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -88,7 +70,7 @@
 							"port": "8083",
 							"path": [
 								"users",
-								"1"
+								"2"
 							]
 						}
 					},
@@ -101,7 +83,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n        \"id\": 2,\n        \"emailId\": \"user1@email.com\",\n        \"name\": \"user123\",\n        \"password\": \"password\"\n}",
+							"raw": "{\n    \"id\": 2,\n    \"emailId\": \"bob@gmail.com\",\n    \"name\": \"Bob Dylan\",\n    \"username\": \"Bob\",\n    \"password\": \"$2a$10$HVZ3zUhejBJfRCUhGr3ryuMOUz7Cl2.4awHm77/1BCuSJIJzXgi2q\",\n    \"role\": \"admin\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -211,7 +193,7 @@
 					"response": []
 				},
 				{
-					"name": "http://localhost:8081/posts",
+					"name": "http://localhost:8082/posts",
 					"request": {
 						"method": "PUT",
 						"header": [
@@ -276,46 +258,6 @@
 								"localhost"
 							],
 							"port": "8082",
-							"path": [
-								"posts",
-								"user",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "http://localhost:8080/posts/user/1",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "user-id",
-								"value": "1",
-								"type": "default",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"id\": 1,\n    \"title\":\"title2\",\n    \"description\": \"description2\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/posts/user/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
 							"path": [
 								"posts",
 								"user",
@@ -697,34 +639,6 @@
 					"response": []
 				},
 				{
-					"name": "http://localhost:8080/comments/post/1",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "post-id",
-								"value": "1",
-								"type": "default",
-								"disabled": true
-							}
-						],
-						"url": {
-							"raw": "http://localhost:8080/comments/post/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"comments",
-								"post",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "http://localhost:8081/comments/sorted/asc",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -978,6 +892,370 @@
 							"path": [
 								"v2",
 								"api-docs"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Identity",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"John Lenon\",\r\n    \"username\": \"John\",\r\n    \"password\":\"Pwd1\",\r\n    \"emailId\":\"john@gmail.com\",\r\n    \"role\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"John\",\r\n    \"password\":\"Pwd1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/auth/token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"auth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/auth/validate?token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJCb2IgRHlsYW4iLCJpYXQiOjE2ODUzNDUxMjYsImV4cCI6MTY4NTM0NjkyNn0.6KfuRZbYyMK6bhPIiv0TDLgxXvhZyp5_vIoQFVD5JhY",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"auth",
+								"validate"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJCb2IgRHlsYW4iLCJpYXQiOjE2ODUzNDUxMjYsImV4cCI6MTY4NTM0NjkyNn0.6KfuRZbYyMK6bhPIiv0TDLgxXvhZyp5_vIoQFVD5JhY"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "API Gateway",
+			"item": [
+				{
+					"name": "http://localhost:8080/users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:8080/posts/user/1",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "user-id",
+								"value": "1",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"title\":\"title2\",\n    \"description\": \"description2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/posts/user/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"posts",
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:8080/comments/post/1",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "post-id",
+								"value": "1",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/comments/post/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"comments",
+								"post",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:8080/actuator/health",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "post-id",
+								"value": "1",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/actuator/health",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"actuator",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"John Lenon\",\r\n    \"username\": \"John\",\r\n    \"password\":\"Pwd1\",\r\n    \"emailId\":\"john@gmail.com\",\r\n    \"role\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"TOKEN\", jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"John\",\r\n    \"password\":\"Pwd1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/auth/validate?token={{TOKEN}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"auth",
+								"validate"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}"
+								}
 							]
 						}
 					},
