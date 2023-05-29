@@ -1,0 +1,119 @@
+server:
+  port: 8080
+
+# Service Registry
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    preferIpAddress: true
+
+# Routes
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+    gateway:
+      routes:
+        - id: userService
+          uri: lb://user-service
+          predicates:
+            - Path=/users/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: userCircuitBreaker
+                fallbackUri: forward:/fallback/user
+            - AuthenticationFilter
+
+        - id: postService
+          uri: lb://post-service
+          predicates:
+            - Path=/posts/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: postCircuitBreaker
+                fallbackUri: forward:/fallback/post
+            - AuthenticationFilter
+
+        - id: commentService
+          uri: lb://comment-service
+          predicates:
+            - Path=/comments/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: commentCircuitBreaker
+                fallbackUri: forward:/fallback/comment
+            - AuthenticationFilter
+
+        - id: feedService
+          uri: lb://recommendation-service
+          predicates:
+            - Path=/feed/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: feedCircuitBreaker
+                fallbackUri: forward:/fallback/feed
+            - AuthenticationFilter
+
+        - id: identityService
+          uri: lb://IDENTITY-SERVICE
+          predicates:
+            - Path=/auth/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: identityCircuitBreaker
+                fallbackUri: forward:/fallback/identity
+
+# Actuator
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+
+# Details for info actuator
+info:
+  app:
+    name: API Gateway
+    description: Gateway to access Services
+    version: 1.0.0
+
+# Circuit Breaker
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        slidingWindowType: COUNT_BASED
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+    instances:
+      userCircuitBreaker:
+        baseConfig: default
+      postCircuitBreaker:
+        baseConfig: default
+      commentCircuitBreaker:
+        baseConfig: default
+      feedCircuitBreaker:
+        baseConfig: default
+      identityCircuitBreaker:
+        baseConfig: default
